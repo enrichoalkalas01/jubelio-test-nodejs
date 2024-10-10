@@ -17,8 +17,8 @@ export const ReadList = async (request: Request, h: ResponseToolkit) => {
 };
 
 export const Create = async (request: Request, h: ResponseToolkit) => {
-    const { title, slug, description, sku, price } = request.payload as { title: string, slug: string, description: string, sku: string, price: boolean }
-    console.log(title, slug, description, sku, price)
+    const { title, slug, description, sku, price } = request.payload as { title: string, slug: string, description: string, sku: string, price: boolean };
+    console.log(title, slug, description, sku, price);
     // Logic to create a product
     const data = {
         message: 'Hello from the controller!',
