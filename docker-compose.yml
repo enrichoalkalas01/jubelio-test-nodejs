@@ -32,7 +32,7 @@ services:
       DATABASE_NAME: jubelio-test
       PORT: 5700
       SECRET_KEY: Jubelio123!
-      BASE_URL_DB: postgres://jubelio:jubelio123!@host.docker.internal:7201/jubelio-test
+      BASE_URL_DB: postgres://jubelio:jubelio123!@192.168.40.8:7201/jubelio-test
     ports:
       - "7200:5700"
     depends_on:
