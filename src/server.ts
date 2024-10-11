@@ -5,8 +5,10 @@ import vision from '@hapi/vision'; // Pengganti express.use("view", "ejs")
 import inert from '@hapi/inert'; // Pengganti express.static("public")
 import { routes } from './routes/index';
 
+console.log(PathJoin(__dirname, 'config', '.env'));
 // Setup Env File
-Dotenv.config({ path: PathJoin(__dirname + '/src/config/.env') });
+Dotenv.config({ path: PathJoin(__dirname, './config', '.env') });
+// require('dotenv').config(PathJoin(__dirname, './config', '.env'))
 
 // Setup
 const host = '0.0.0.0';
@@ -17,6 +19,14 @@ const init = async () => {
     const server = Hapi.server({
         port: Number(port),
         host: host,
+        routes: {
+            cors: {
+                origin: ['*'],
+                headers: ['Accept', 'Content-Type', 'Authorization'],
+                additionalHeaders: ['X-Requested-With'],
+                credentials: true
+            },
+        },
     });
 
     // Register plugins

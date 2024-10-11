@@ -6,7 +6,7 @@
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
-        "allowJs": true // Izinkan file JavaScript
+        "allowJs": true, // Izinkan file JavaScript
     },
     "include": [
         "src/**/*",

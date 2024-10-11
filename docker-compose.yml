@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  # PostgreSQL service
+  postgres:
+    image: postgres:15.2
+    container_name: jubelio-postgres
+    restart: always
+    environment:
+      POSTGRES_DB: jubelio-test
+      POSTGRES_USER: jubelio
+      POSTGRES_PASSWORD: jubelio123!
+    ports:
+      - "7201:5432"
+    deploy:
+      resources:
+        limits:
+          cpus: '1'  # Maksimal 1 CPU
+          memory: '512M'  # Maksimal 512MB RAM
+
+  # Backend Express JS
+  backend:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    container_name: jubelio-backend
+    restart: always
+    environment:
+      DATABASE_HOST: jubelio
+      DATABASE_USER: jubelio
+      DATABASE_PASSWORD: jubelio123!
+      DATABASE_NAME: jubelio-test
+      PORT: 5700
+      SECRET_KEY: Jubelio123!
+      BASE_URL_DB: postgres://jubelio:jubelio123!@host.docker.internal:7201/jubelio-test
+    ports:
+      - "7200:5700"
+    depends_on:
+      - postgres
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: '512M'
+
+volumes:
+  postgres_data:
+    external: false

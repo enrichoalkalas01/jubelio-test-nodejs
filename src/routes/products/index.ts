@@ -1,42 +1,57 @@
-import { ServerRoute } from '@hapi/hapi';
+import Hapi, { ServerRoute } from '@hapi/hapi';
 import { ReadList, Create, ReadDetail, Update, Delete } from '../../controllers/products/products';
+import { CheckAuthorization, ParseAuthorization } from '../../middlewares/JsonwebtokenHandler';
 
 const productRoutes: ServerRoute[] = [
     {
         method: 'GET',
-        path: '/products', // ini akan menjadi /api/v1/product
+        path: '/products',
+        options: {
+            pre: [{ method: ParseAuthorization }]
+        },
         handler: ReadList
     },
     {
         method: 'POST',
-        path: '/products', // ini akan menjadi /api/v1/product
+        path: '/products',
         options: {
+            pre: [
+                { method: CheckAuthorization }
+            ],
             payload: {
                 output: 'stream',
                 allow: 'multipart/form-data',
                 maxBytes: 10 * 1024 * 1024, // Set file size limit (10MB)
                 multipart: true,
             },
-            // pre: [
-            //     { method: CheckAuthorization, assign: 'checkAuth' },
-            //     { method: VerifyAuthorization, assign: 'verifyAuth' }
-            // ]
         },
         handler: Create
     },
     {
-        method: 'GET',
-        path: '/products/{id}', // ini akan menjadi /api/v1/product/{id}
-        handler: ReadDetail
-    },
-    {
         method: 'PUT',
-        path: '/products/{id}', // ini akan menjadi /api/v1/product/{id}
+        path: '/products/{id}',
+        options: {
+            pre: [
+                { method: CheckAuthorization }
+            ],
+            payload: {
+                output: 'stream',
+                allow: 'multipart/form-data',
+                maxBytes: 10 * 1024 * 1024, // Set file size limit (10MB)
+                multipart: true,
+            },
+        },
         handler: Update
     },
     {
+        method: 'GET',
+        path: '/products/{id}',
+        handler: ReadDetail
+    },
+    
+    {
         method: 'DELETE',
-        path: '/products/{id}', // ini akan menjadi /api/v1/product/{id}
+        path: '/products/{id}',
         handler: Delete
     }
 ];
