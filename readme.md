@@ -15,10 +15,28 @@ This is a basic structure for a scalable Node.js backend using Hapi.js. The proj
 
 ## Features
 - [API Endpoints Products](#Products-API)
-- API Endpoints Users
-- API Endpoints Import Products
-
-## Folder Structure
+- [API Endpoints Users](#Users-API)
+- [API Endpoints Imports](#Imports-API)
 
 ## Products API
+
+## Folder Structure
+```bash
+|-- src
+|   |-- configs         # Configuration files for database and environment
+|   |-- controllers     # Controllers to handle incoming HTTP requests
+|   |-- middlewares     # Middleware functions for token, verification, error handling, etc.
+|   |-- migrations      # Database migration files for schema management
+|   |-- models          # models representing the database / functions
+|   |-- public          # assets for accessed from public
+|   |-- routes          # API route definitions
+|   |-- repositories    # Business logic and database interaction functions
+|   |-- server.ts       # Entry point of the application
+|
+|-- docker-compose.yml  # file bundling for docker image
+|-- Jenkinsfile         # file ci/cd for deployment jenkins
+|-- package.json        # NPM dependencies and scripts
+|-- Dockerfile          # Docker configuration for containerizing the app
+
+
 
