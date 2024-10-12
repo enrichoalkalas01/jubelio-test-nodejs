@@ -15,7 +15,7 @@ This project is a Node.js backend built with Hapi.js, following a modular archit
 - Clean folder structure with separation of concerns (Controllers, Services, Routes, Repositories)
 - API Endpoints for managing users, products, and imports
 - Integrated Docker setup for easy containerization and local development
-- CI/CD pipeline with Jenkins for automated testing and deployment
+- CI/CD pipeline with Jenkins for automated deployment
 
 ## Folder Structure
 ```bash
