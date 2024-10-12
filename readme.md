@@ -18,8 +18,6 @@ This is a basic structure for a scalable Node.js backend using Hapi.js. The proj
 - [API Endpoints Users](#Users-API)
 - [API Endpoints Imports](#Imports-API)
 
-## Products API
-
 ## Folder Structure
 ```bash
 |-- src
@@ -37,6 +35,14 @@ This is a basic structure for a scalable Node.js backend using Hapi.js. The proj
 |-- Jenkinsfile         # file ci/cd for deployment jenkins
 |-- package.json        # NPM dependencies and scripts
 |-- Dockerfile          # Docker configuration for containerizing the app
+```
 
+## How To Run App
+```bash
+cd directory
+npm run install
+npm run dev or start
+```
 
+## Products API
 
