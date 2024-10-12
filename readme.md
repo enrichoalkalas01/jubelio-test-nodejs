@@ -5,13 +5,9 @@ This is a basic structure for a scalable Node.js backend using Hapi.js. The proj
 ## Table of Contents
 - [Features](#features)
 - [Folder Structure](#folder-structure)
-- [Installation](#installation)
-- [Running the Application](#running-the-application)
-- [Environment Variables](#environment-variables)
-- [Migrations](#migrations)
+- [How To Run App](#How-To-Run-App)
+- [Environment Variables](#Environtment-Variables)
 - [API Routes](#api-routes)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 - [API Endpoints Products](#Products-API)
@@ -45,5 +41,16 @@ npm run migrate -- --all    # migrate all table schema
 npm run dev or start        # running the app
 ```
 
-## Products API
+## Environtment Variables
+```bash
+SECRET_KEY         # secret-key-here-123! 
+PORT               # 5700
+BASE_URL_DB        # postgres://postgres:postgres@localhost:5432/jubelio-test
+```
 
+## Products API
+- Create API
+- Read API
+- Read Detail API
+- Update API
+- Delete API
