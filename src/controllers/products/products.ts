@@ -8,6 +8,7 @@ import {
     updateProduct,
     readListProduct,
     readDetailProduct,
+    deleteProduct,
 } from '../../repositories/products';
 
 const DataPassing: object = {
@@ -160,12 +161,23 @@ export const Update = async (request: Request, h: ResponseToolkit) => {
 
 export const Delete = async (request: Request, h: ResponseToolkit) => {
     const { id } = request.params;
-    // Logic to delete product by id
-    const data = {
-        message: 'Hello from the controller!',
-    };
 
-    return h.response(data).code(200);
+    const UserData = (request as any).UserData;
+    const getData = await readDetailProduct({ id: id });
+    if ( !getData ) {
+        throw Boom.badRequest('Data is not exist!');
+    }
+    
+    if ( UserData.type !== 'admin' && (UserData?.username !== getData?.username) ) {
+        throw Boom.unauthorized('Unauthorized, to update data!');
+    }
+
+    let deleteData = await deleteProduct({ id: id })
+
+    return h.response({
+        statusCode: 200,
+        message: 'Successfull to delete data!'
+    }).code(200);
 };
 
 // CRUD banyak lebih dari 1 table

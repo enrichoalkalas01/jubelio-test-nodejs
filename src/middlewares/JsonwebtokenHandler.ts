@@ -87,7 +87,7 @@ export const CheckAuthorization = async (request: Hapi.Request, h: Hapi.Response
         
         if (typeof parsedToken !== 'string' && 'scrf' in parsedToken) {
             const checkSourceFrom = await bcrypt.compare('access_token', parsedToken.scrf);
-
+            
             if ( !checkSourceFrom ) {
                 throw Boom.unauthorized();
             }

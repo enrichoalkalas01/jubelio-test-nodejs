@@ -44,15 +44,19 @@ const productRoutes: ServerRoute[] = [
         handler: Update
     },
     {
+        method: 'delete',
+        path: '/products/{id}',
+        options: {
+            pre: [
+                { method: CheckAuthorization }
+            ],
+        },
+        handler: Delete
+    },
+    {
         method: 'GET',
         path: '/products/{id}',
         handler: ReadDetail
-    },
-    
-    {
-        method: 'DELETE',
-        path: '/products/{id}',
-        handler: Delete
     }
 ];
 
