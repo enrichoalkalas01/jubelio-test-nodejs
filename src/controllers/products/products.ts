@@ -179,9 +179,3 @@ export const Delete = async (request: Request, h: ResponseToolkit) => {
         message: 'Successfull to delete data!'
     }).code(200);
 };
-
-// CRUD banyak lebih dari 1 table
-// masing" gerai 150cup per hari
-// misalkan product
-
-// 150 x 25.000 = 

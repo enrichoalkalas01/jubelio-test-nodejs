@@ -11,7 +11,6 @@ import {
 
 import { CheckAuthorization } from '../../middlewares/JsonwebtokenHandler';
 
-
 const userRoutes: ServerRoute[] = [
     {
         method: 'POST',
@@ -26,35 +25,51 @@ const userRoutes: ServerRoute[] = [
     {
         method: 'GET',
         path: '/users',
+        options: {
+            pre: [{ method: CheckAuthorization }]
+        },
         handler: ReadList
     },
-    
-    // {
-    //     method: 'POST',
-    //     path: '/users'
-    //     // options: {
-    //     //     pre: [
-    //     //         { method: CheckAuthorization, assign: 'checkAuth' },
-    //     //         { method: VerifyAuthorization, assign: 'verifyAuth' }
-    //     //     ]
-    //     // },
-    //     handler: Create
-    // },
-    // {
-    //     method: 'GET',
-    //     path: '/users/{id}',
-    //     handler: ReadDetail
-    // },
-    // {
-    //     method: 'PUT',
-    //     path: '/users/{id}',
-    //     handler: Update
-    // },
-    // {
-    //     method: 'DELETE',
-    //     path: '/users/{id}',
-    //     handler: Delete
-    // }
+    {
+        method: 'POST',
+        path: '/users',
+        options: {
+            pre: [
+                { method: CheckAuthorization }
+            ],
+        },
+        handler: Create
+    },
+    {
+        method: 'PUT',
+        path: '/users/{id}',
+        options: {
+            pre: [
+                { method: CheckAuthorization }
+            ],
+        },
+        handler: Update
+    },
+    {
+        method: 'delete',
+        path: '/users/{id}',
+        options: {
+            pre: [
+                { method: CheckAuthorization }
+            ],
+        },
+        handler: Delete
+    },
+    {
+        method: 'GET',
+        path: '/users/{id}',
+        options: {
+            pre: [
+                { method: CheckAuthorization }
+            ],
+        },
+        handler: ReadDetail
+    }
 ];
 
 export default userRoutes;

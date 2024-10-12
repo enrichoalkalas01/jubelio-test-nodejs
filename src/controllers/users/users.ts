@@ -1,14 +1,17 @@
 import { Request, ResponseToolkit } from '@hapi/hapi';
 import Boom from '@hapi/boom';
 import Bcrypt from 'bcryptjs';
-import db from '../../models/db';
+import path from 'path';
+import fs from 'fs';
+import { v4 as uuidv4 } from 'uuid';
 
 import { validationHandler } from '../../middlewares/ValidationHandler';
 import {
+    readLoginUser,
     createUser,
     updateUser,
     readDetailUser,
-    readLoginUser,
+    
     readListUser,
     deleteUser,
 } from '../../repositories/users';
@@ -34,52 +37,115 @@ const schema = {
     type: { type: 'string', optional: true }
 };
 
-export const ReadList = async (request: Request, h: ResponseToolkit) => {
-    // Logic to read product list
-    const data = {
-        message: 'Hello from the controller!',
-    };
+interface PropsDataPassing {
+    username: string,
+    firstname?: string,
+    lastname?: string,
+    phonenumber?: string,
+    password: string,
+    email: string,
+    type?: "user" | "admin",
+}
 
-    return h.response(data).code(200);
+export const ReadList = async (request: Request, h: ResponseToolkit) => {
+    const { query, size, page, sorted_by, order_by, usage } = request.query;
+    const UserData = (request as any).UserData;
+    const Username = (UserData?.username && (usage === 'private')) ? UserData?.username : null;
+    
+    const getData = await readListUser({
+        search: query,
+        size: Number(size),
+        page: Number(page),
+        sort_by: sorted_by,
+        order_by: order_by,
+    });
+
+    return h.response(getData).code(200);
 };
 
 export const Create = async (request: Request, h: ResponseToolkit) => {
-    // Logic to create a product
-    const data = {
-        message: 'Hello from the controller!',
-    };
+    const { username, firstname, lastname, phonenumber, password, email, type } = request.payload as PropsDataPassing;
 
-    return h.response(data).code(200);
+    const UserData = (request as any).UserData;
+    if ( UserData.type !== 'admin' ) {
+        throw Boom.unauthorized('Unauthorized!');
+    }
+
+    const create = await createUser({
+        username: username,
+        firstname: firstname || null,
+        lastname: lastname || null,
+        phonenumber: phonenumber || null,
+        password: await Bcrypt.hash(`${password}`, 10),
+        email: email,
+        type: type || "user",
+    });
+
+    return h.response({
+        statusCode: 200,
+        message: 'Successfull to create data!',
+    }).code(200);
 };
 
 export const ReadDetail = async (request: Request, h: ResponseToolkit) => {
     const { id } = request.params;
-    // Logic to read product detail by id
-    const data = {
-        message: 'Hello from the controller!',
+    const getData = await readDetailUser({ id: id });
+    const DataPassing = {
+        statusCode: 200,
+        message: 'Successfull to get data!',
+        data: getData,
     };
 
-    return h.response(data).code(200);
+    return h.response(DataPassing).code(200);
 };
 
 export const Update = async (request: Request, h: ResponseToolkit) => {
     const { id } = request.params;
-    // Logic to update product by id
-    const data = {
-        message: 'Hello from the controller!',
-    };
+    const { username, firstname, lastname, phonenumber, password, email, type } = request.payload as PropsDataPassing;
 
-    return h.response(data).code(200);
+    const UserData = (request as any).UserData;
+    if ( UserData.type !== 'admin' ) {
+        throw Boom.unauthorized('Unauthorized!');
+    }
+
+    let getData = await readDetailUser({ id: id })
+
+    let update = updateUser({
+        id: id,
+        username: username || getData?.username,
+        firstname: firstname || getData?.firstname,
+        lastname: lastname || getData?.lastname,
+        phonenumber: phonenumber,
+        email: email || getData?.email,
+        password: password ? await Bcrypt.hash(`${password}`, 10) : getData?.password,
+        type: type || getData?.type,
+    })
+
+    return h.response({
+        statusCode: 200,
+        message: 'Successfull to update data!',
+    }).code(200);
 };
 
 export const Delete = async (request: Request, h: ResponseToolkit) => {
     const { id } = request.params;
-    // Logic to delete product by id
-    const data = {
-        message: 'Hello from the controller!',
-    };
 
-    return h.response(data).code(200);
+    const UserData = (request as any).UserData;
+    const getData = await readDetailUser({ id: id });
+    if ( !getData ) {
+        throw Boom.badRequest('Data is not exist!');
+    }
+    
+    if ( UserData.type !== 'admin' ) {
+        throw Boom.unauthorized('Unauthorized, to update data!');
+    }
+
+    let deleteData = await deleteUser({ id: id })
+
+    return h.response({
+        statusCode: 200,
+        message: 'Successfull to delete data!'
+    }).code(200);
 };
 
 export const UserRegistration = async (request: Request, h: ResponseToolkit) => {
