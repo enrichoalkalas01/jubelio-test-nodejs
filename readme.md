@@ -39,9 +39,10 @@ This is a basic structure for a scalable Node.js backend using Hapi.js. The proj
 
 ## How To Run App
 ```bash
-cd directory
-npm run install
-npm run dev or start
+cd directory                # go to the app folder
+npm run install             # install depedency
+npm run migrate -- --all    # migrate all table schema
+npm run dev or start        # running the app
 ```
 
 ## Products API
