@@ -7,13 +7,8 @@ This project is a Node.js backend built with Hapi.js, following a modular archit
 - [Folder Structure](#folder-structure)
 - [How To Run App](#how-to-run-app)
 - [Environment Variables](#environment-variables)
-- [API Routes](#api-routes)
-  - [Products API](#products-api)
-  - [Users API](#users-api)
-  - [Imports API](#imports-api)
-- [Testing](#testing)
-- [Deployment](#deployment)
-- [Contributing](#contributing)
+- [Products API](#products-api)
+- [Users API](#users-api)
 
 ## Features
 - Scalable architecture for building larger applications
